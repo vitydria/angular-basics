@@ -1,14 +1,14 @@
-import { Component, Input } from '@angular/core';
-import { NewCharacter } from '../interfaces/dbz.interface';
+import { Component,  Input } from '@angular/core';
+import { Character } from '../interfaces/dbz.interface';
+import { DbzService } from '../services/dbz.service';
 
 @Component({
   selector: 'app-add-character',
   templateUrl: './add-character.component.html',
 })
 export class AddCharacterComponent {
-  @Input() characters: NewCharacter[] = [];
-
-  @Input() character: NewCharacter = {
+  constructor(private DbzService: DbzService) {}
+  @Input() character: Character = {
     name: '',
     power: 0,
   };
@@ -16,12 +16,11 @@ export class AddCharacterComponent {
   add(): void {
     if (this.character.name.trim().length === 0) return;
 
-    this.characters.push(this.character);
+    this.DbzService.addCharacter(this.character);
+
     this.character = {
       name: '',
       power: 0,
     };
-
-    console.log(this.characters);
   }
 }
